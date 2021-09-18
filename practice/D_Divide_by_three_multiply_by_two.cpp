@@ -8,15 +8,20 @@ void solveCase()
 {
     ll n = 0;
     cin >> n;
-    ll way1=1,way2=1;
-    
-    for(ll i=n;i>1;i--) way1*=i;
+    ll a[n];
+    for(ll i=0;i<n;i++) cin>>a[i];
+    map<ll,ll> b;
+     for(ll i=0;i<n;i++) b[a[i]]=1;
+     stack<ll> s;
+     for(ll i=0;i<n;i++){
 
-    cout<<2*way1/(n*n);
+     }
+    
     cout << "\n";
 }
 
 int32_t main()
 {
+   
         solveCase();
 }

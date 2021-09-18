@@ -5,32 +5,20 @@ using namespace std;
 int32_t mod = 1e9 + 7;
 vector<vector<pair<ll,ll>>> adj;
 ll INF=999999999999969999;
+vector<vector<ll>> d;
 
-
-void shortest_path(ll s,vector<ll> & d, vector<ll> & p){
-    ll n = adj.size();
-    d.assign(n,INF);
-    p.assign(n,-1);
-    d[s]=0;
-    priority_queue<pii,vector<pii>,greater<pii>> pq;
-    pq.push({0,s});
-    while(!pq.empty()){
-        ll d_v= pq.top().first;
-        ll v = pq.top().second;
-    
-        pq.pop();
-        if(d_v!=d[v]) continue;
-        for(auto e : adj[v]){
-            ll to = e.first;
-            ll len = e.second;
-
-            if (d[v] + len < d[to]) {
-                d[to] = d[v] + len;
-                p[to] = v;
-                pq.push({d[to], to});
-            }
-        }
-    }
+void shortest_path(ll n){
+   for(ll k=0;k<n;k++){
+       for(ll i=0;i<n;i++){
+           for(ll j=0;j<n;j++){
+               if(i==j && k==0) d[i][j]=0;
+              
+                   if(d[i][k]<INF && d[k][j]<INF ) d[i][j]=min(d[i][j],d[i][k]+d[k][j]);
+            
+           }
+       }
+   }
+  
 } 
 
 
@@ -40,24 +28,24 @@ void solveCase()
     cin >> n >> m >>q;
     adj.resize(n);
    
-    
+      d.resize(n,vector<ll>(n,INF));
     for(ll i=0;i<m;i++){
         ll e1,e2,w;
         cin>>e1>>e2>>w;
-        adj[e1-1].push_back({e2-1,w});
-       adj[e2-1].push_back({e1-1,w});
+        d[e1-1][e2-1]=min(w,d[e1-1][e2-1]);
+        d[e2-1][e1-1]=min(w,d[e2-1][e1-1]);
     }
-    for(ll i=0;i<q;i++){
+  
+    shortest_path(n);
+    while(q--){
         ll a,b;
-        vector<ll> d,p;
         cin>>a>>b;
-    shortest_path(a-1,d,p);
-    if(d[b-1]==INF) cout<<-1;
-    else cout<<d[b-1];
-    
-    cout << "\n";
+        a--;
+        b--;
+        if(d[a][b]==INF || d[a][b]==-INF) cout<<-1<<endl;
+        else cout<<d[a][b]<<endl;
     }
-    adj.clear();
+    
  
 }
 
