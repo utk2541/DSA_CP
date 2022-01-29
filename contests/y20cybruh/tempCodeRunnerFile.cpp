@@ -1,1 +1,0 @@
-cout<<count1<<count2<<count3<<endl;
